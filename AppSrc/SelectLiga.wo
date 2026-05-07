@@ -1,0 +1,163 @@
+﻿// C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectLiga.wo
+// SelectLiga
+
+Use cWebView.pkg
+Use cWebList.pkg
+Use cWebMenuGroup.pkg
+Use cWebMenuItem.pkg
+Use cWebColumnButton.pkg
+Use cWebColumn.pkg
+
+Use cligaDataDictionary.dd
+
+Object oSelectLiga is a cWebView
+    Set psCaption to "Seleccionar Liga"
+    Set peWebViewStyle to wvsDrilldown
+    Set peViewType to vtSelect
+    Set piColumnCount to 12
+    Set pbShowCaption to False
+    Set piMaxWidth to 1024
+
+    Object oliga_DD is a cligaDataDictionary
+    End_Object 
+
+    Set Main_DD to oliga_DD
+    Set Server  to oliga_DD
+
+    Object oList is a cWebList
+        Set piColumnSpan to 0
+        Set psCSSClass to "MobileList"
+        Set pbServerOnRowClick to True
+        Set pbFillHeight to True
+        Set pbShowHeader to False
+        Set piSortColumn to 0
+
+        Object oligaID is a cWebColumn
+            Entry_Item liga.ID
+            Set psCaption to "ID"
+            Set piWidth to 100
+        End_Object 
+
+        Object oDetailButton is a cWebColumnButton
+            Set psCaption to "Ver"
+            Set piWidth to 45
+            Set pbFixedWidth to True
+            Set pbResizable to False
+            Set piListRowSpan to 5
+            Set psBtnCssClass to "WebButtonIcon WebIcon_Info"
+            Set peAlign to alignRight
+
+            // Vinculamos a la vista Zoom de Liga
+            WebRegisterPath ntNavigateForward oZoomLiga
+
+            Procedure OnClick
+                Send NavigatePath
+            End_Procedure
+
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                Move True to NavigateData.bReadOnly
+            End_Procedure
+        End_Object 
+
+        Object oligaNombre is a cWebColumn
+            Entry_Item liga.Nombre
+            Set psCaption to "Liga"
+            Set piWidth to 1000
+            Set pbNewLine to True
+        End_Object 
+
+        Object oligaPais is a cWebColumn
+            Entry_Item liga.Pais
+            Set psCaption to "País"
+            Set piWidth to 500
+            Set pbNewLine to True
+        End_Object 
+
+        Object oligaEquipos is a cWebColumn
+            Entry_Item liga.Equipos
+            Set psCaption to "Equipos Actuales"
+            Set piWidth to 100
+            Set pbNewLine to True
+        End_Object 
+
+        Object oligaEquiposMax is a cWebColumn
+            Entry_Item liga.EquiposMax
+            Set psCaption to "Máx. Equipos"
+            Set piWidth to 100
+            Set pbNewLine to True
+        End_Object 
+
+        // Registro de navegación para la fila completa
+        WebRegisterPath ntNavigateForward oZoomLiga
+
+        Procedure OnRowClick String sRowId
+            tWebNavigateData NavigateData
+            Get GetNavigateData to NavigateData
+
+            Case Begin
+                Case (NavigateData.eNavigateType = nfFromParent)
+                    Send NavigateForward of oZoomLiga Self
+                    Case Break
+
+                Case (NavigateData.eNavigateType = nfFromChild)
+                    Send NavigateClose Self
+                    Case Break
+
+                Case (NavigateData.eNavigateType = nfFromMain)
+                    Send NavigateClose Self
+                    Case Break
+
+                Case Else 
+                    Send NavigateForward of oZoomLiga Self
+            Case End
+        End_Procedure
+
+        Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+            Move True to NavigateData.bReadOnly
+        End_Procedure
+    End_Object 
+
+    Object oActionGroup is a cWebMenuGroup
+
+        Object oSearch is a cWebMenuItem
+            Set psCSSClass to "WebPromptMenuItem"
+            Set psCaption to "Buscar"
+
+            Procedure OnClick
+                Send Search of oList
+            End_Procedure
+        End_Object 
+
+        Object oNewButton is a cWebMenuItem
+            Set psCSSClass to "WebClearMenuItem"
+            Set psCaption to "Nuevo"
+
+            // Registro para crear una nueva liga
+            WebRegisterPath ntNavigateForward oZoomLiga
+
+            Procedure OnClick
+                Send NavigatePath
+            End_Procedure
+
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                Move True to NavigateData.bNewRecord
+            End_Procedure
+        End_Object 
+    End_Object 
+
+    Procedure OnNavigateForward tWebNavigateData NavigateData Integer hoInvokingView Integer hoInvokingObject
+        WebSet pbRender of oNewButton to True
+        WebSet pbRender of oDetailButton to True
+
+        Case Begin
+            Case (NavigateData.eNavigateType = nfFromParent)
+                Case Break
+            Case (NavigateData.eNavigateType = nfFromChild)
+                Case Break
+            Case (NavigateData.eNavigateType = nfFromMain)
+                WebSet pbRender of oDetailButton to False
+                Case Break
+        Case End
+    End_Procedure
+
+End_Object

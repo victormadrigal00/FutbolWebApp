@@ -1,0 +1,142 @@
+﻿// C:\DataFlex Projects\FutbolWebApp\AppSrc\SelectPosicion.wo
+// SelectPosicion
+
+Use cWebView.pkg
+Use cWebList.pkg
+Use cWebMenuGroup.pkg
+Use cWebMenuItem.pkg
+Use cWebColumnButton.pkg
+Use cWebColumn.pkg
+
+Use cposicionDataDictionary.dd
+
+Object oSelectPosicion is a cWebView
+    Set psCaption to "Seleccionar Posición"
+    Set peWebViewStyle to wvsDrilldown
+    Set peViewType to vtSelect
+    Set piColumnCount to 12
+    Set pbShowCaption to False
+    Set piMaxWidth to 1024
+
+    Object oposicion_DD is a cposicionDataDictionary
+    End_Object 
+
+    Set Main_DD to oposicion_DD
+    Set Server  to oposicion_DD
+
+    Object oList is a cWebList
+        Set piColumnSpan to 0
+        Set psCSSClass to "MobileList"
+        Set pbServerOnRowClick to True
+        Set pbFillHeight to True
+        Set pbShowHeader to False
+        Set piSortColumn to 0
+
+        Object oposicionID is a cWebColumn
+            Entry_Item posicion.ID
+            Set psCaption to "ID"
+            Set piWidth to 100
+        End_Object 
+
+        Object oDetailButton is a cWebColumnButton
+            Set psCaption to "Ver"
+            Set piWidth to 45
+            Set pbFixedWidth to True
+            Set pbResizable to False
+            Set piListRowSpan to 2
+            Set psBtnCssClass to "WebButtonIcon WebIcon_Info"
+            Set peAlign to alignRight
+
+            // Vinculamos a la vista Zoom de Posición
+            WebRegisterPath ntNavigateForward oZoomPosicion
+
+            Procedure OnClick
+                Send NavigatePath
+            End_Procedure
+
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                Move True to NavigateData.bReadOnly
+            End_Procedure
+        End_Object 
+
+        Object oposicionNombre is a cWebColumn
+            Entry_Item posicion.Nombre
+            Set psCaption to "Nombre Posición"
+            Set piWidth to 500
+            Set pbNewLine to True
+        End_Object 
+
+        // Registro de navegación para la fila completa
+        WebRegisterPath ntNavigateForward oZoomPosicion
+
+        Procedure OnRowClick String sRowId
+            tWebNavigateData NavigateData
+            Get GetNavigateData to NavigateData
+
+            Case Begin
+                Case (NavigateData.eNavigateType = nfFromParent)
+                    Send NavigateForward of oZoomPosicion Self
+                    Case Break
+
+                Case (NavigateData.eNavigateType = nfFromChild)
+                    Send NavigateClose Self
+                    Case Break
+
+                Case (NavigateData.eNavigateType = nfFromMain)
+                    Send NavigateClose Self
+                    Case Break
+
+                Case Else 
+                    Send NavigateForward of oZoomPosicion Self
+            Case End
+        End_Procedure
+
+        Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+            Move True to NavigateData.bReadOnly
+        End_Procedure
+    End_Object 
+
+    Object oActionGroup is a cWebMenuGroup
+
+        Object oSearch is a cWebMenuItem
+            Set psCSSClass to "WebPromptMenuItem"
+            Set psCaption to "Buscar"
+
+            Procedure OnClick
+                Send Search of oList
+            End_Procedure
+        End_Object 
+
+        Object oNewButton is a cWebMenuItem
+            Set psCSSClass to "WebClearMenuItem"
+            Set psCaption to "Nuevo"
+
+            // Registro para crear una nueva posición
+            WebRegisterPath ntNavigateForward oZoomPosicion
+
+            Procedure OnClick
+                Send NavigatePath
+            End_Procedure
+
+            Procedure OnGetNavigateForwardData tWebNavigateData ByRef NavigateData Handle hoToView
+                Move True to NavigateData.bNewRecord
+            End_Procedure
+        End_Object 
+    End_Object 
+
+    Procedure OnNavigateForward tWebNavigateData NavigateData Integer hoInvokingView Integer hoInvokingObject
+        WebSet pbRender of oNewButton to True
+        WebSet pbRender of oDetailButton to True
+
+        Case Begin
+            Case (NavigateData.eNavigateType = nfFromParent)
+                Case Break
+            Case (NavigateData.eNavigateType = nfFromChild)
+                Case Break
+            Case (NavigateData.eNavigateType = nfFromMain)
+                WebSet pbRender of oDetailButton to False
+                Case Break
+        Case End
+    End_Procedure
+
+End_Object
