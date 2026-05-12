@@ -15,11 +15,10 @@ Class cequipoDataDictionary is a DataDictionary
 
         Set Add_Client_File to entrenador.File_Number
         Set Add_Client_File to jugador.File_Number
-
+        
+        // Esto permite que el hijo se limpie si el padre cambia
         Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
-        Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
-        Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
 
     End_Procedure
 
