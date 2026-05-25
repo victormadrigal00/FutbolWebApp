@@ -32,7 +32,6 @@ Object oDashboard is a cWebView
             Set piColumnCount to 12
             Set psCSSClass to "TilesGroup"
     
-            // --- TILE BIENVENIDA ---
             Object oWelcomeTile is a cWebHtmlBox
                 Set piColumnSpan to 6
                 Set psCSSClass to "Tile Light"
@@ -44,7 +43,6 @@ Object oDashboard is a cWebView
                 End_Procedure
             End_Object
     
-            // --- TILE ENTRENADORES ---
             Object oEntrenadorTile is a cWebHtmlBox
                 Set pbServerOnClick to True
                 Set piColumnSpan to 6
@@ -52,28 +50,26 @@ Object oDashboard is a cWebView
                 Set psCSSClass to "Tile LightAlternate"
                 Set psHtml to '<div class="WebCon_Sizer" data-ServerOnClick="openview"><div Class="Tile_Title">Entrenadores</div><div class="Tile_Subtitle">Gestión técnica</div></div>'
                 
-                WebRegisterPath ntNavigateForward oSelectEntrenador
+                WebRegisterPath ntNavigateForwardCustom oSelectEntrenador
                 
                 Procedure OnClick String sId String sParam
                     Send NavigatePath
                 End_Procedure
             End_Object
     
-            // --- TILE JUGADORES ---
             Object oJugadorTile is a cWebHtmlBox
                 Set pbServerOnClick to True
                 Set piColumnSpan to 6
                 Set psCSSClass to "Tile Dark"
                 Set psHtml to '<div class="WebCon_Sizer" data-ServerOnClick="openview"><div Class="Tile_Title">Jugadores</div><div class="Tile_Subtitle">Plantilla activa</div></div>'
                 
-                WebRegisterPath ntNavigateForward oSelectJugador
+                WebRegisterPath ntNavigateForwardCustom oSelectJugador
                 
                 Procedure OnClick String sId String sParam
                     Send NavigatePath
                 End_Procedure
             End_Object
     
-            // --- TILE POSICIONES ---
             Object oPosicionTile is a cWebHtmlBox
                 Set pbServerOnClick to True
                 Set piColumnSpan to 6
@@ -81,28 +77,26 @@ Object oDashboard is a cWebView
                 Set psCSSClass to "Tile DarkAlternate"
                 Set psHtml to '<div class="WebCon_Sizer" data-ServerOnClick="openview"><div Class="Tile_Title">Posiciones</div><div class="Tile_Subtitle">Configuración táctica</div></div>'
                 
-                WebRegisterPath ntNavigateForward oSelectPosicion
+                WebRegisterPath ntNavigateForwardCustom oSelectPosicion
                 
                 Procedure OnClick String sId String sParam
                     Send NavigatePath
                 End_Procedure
             End_Object
 
-            // --- TILE EQUIPOS ---
             Object oEquipoTile is a cWebHtmlBox
                 Set pbServerOnClick to True
                 Set piColumnSpan to 6
                 Set psCSSClass to "Tile Light"
                 Set psHtml to '<div class="WebCon_Sizer" data-ServerOnClick="openview"><div Class="Tile_Title">Equipos</div><div class="Tile_Subtitle">Clubes federados</div></div>'
                 
-                WebRegisterPath ntNavigateForward oSelectEquipo
+                WebRegisterPath ntNavigateForwardCustom oSelectEquipo
                 
                 Procedure OnClick String sId String sParam
                     Send NavigatePath
                 End_Procedure
             End_Object
 
-            // --- TILE LIGAS ---
             Object oLigaTile is a cWebHtmlBox
                 Set pbServerOnClick to True
                 Set piColumnSpan to 6
@@ -110,7 +104,7 @@ Object oDashboard is a cWebView
                 Set psCSSClass to "Tile Dark"
                 Set psHtml to '<div class="WebCon_Sizer" data-ServerOnClick="openview"><div Class="Tile_Title">Ligas</div><div class="Tile_Subtitle">Competiciones</div></div>'
                 
-                WebRegisterPath ntNavigateForward oSelectLiga
+                WebRegisterPath ntNavigateForwardCustom oSelectLiga
                 
                 Procedure OnClick String sId String sParam
                     Send NavigatePath
