@@ -5,6 +5,9 @@ Open hijojugador
 Open jugadorposicion
 Open equipo
 
+// 1. Registramos el objeto para que la clase sepa de su existencia
+Register_Object oPaises_VT
+
 Class cjugadorDataDictionary is a DataDictionary
     
     Procedure Construct_Object
@@ -21,6 +24,19 @@ Class cjugadorDataDictionary is a DataDictionary
         Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_DEFAULT DD_DISPLAYONLY to True
 
+        // --- TAREA: RELACIÓN SOFT NULL (Jugadores sin equipo) ---
+        Set ParentNullAllowed equipo.File_Number to True
+        // --------------------------------------------------------
+
+        // --- TAREA: ASOCIAR LA TABLA DE VALIDACIÓN AL CAMPO ---
+        Set Field_Value_Table Field jugador.Nacionalidad to oPaises_VT
+        // ------------------------------------------------------
+
     End_Procedure
 
 End_Class
+
+// 2. Definimos el objeto aquí abajo, FUERA de la clase
+Object oPaises_VT is a CodeValidationTable
+    Set psCodeType to "PAISES"
+End_Object

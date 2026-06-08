@@ -1,0 +1,2 @@
+ERROR: 4306 Referencia hacia adelante no resuelta  SET_PSCODETYPE ON LINE: 41 (37561) OF FILE: C:\DataFlex Projects\FutbolWebApp\DDSrc\cjugadorDataDictionary.dd
+ERROR: 4306 Referencia hacia adelante no resuelta  SET_PSCODETYPE ON LINE: 107 (38667) OF FILE: C:\DataFlex Projects\FutbolWebApp\AppSrc\ZoomJugador.wo

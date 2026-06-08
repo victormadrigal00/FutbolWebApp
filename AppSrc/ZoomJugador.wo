@@ -2,7 +2,6 @@
 // ZoomJugador
 //
 
-
 // =============================================================================
 // RESPUESTAS A LAS PREGUNTAS DEL PDF (SECCIÓN TAREA):
 // =============================================================================
@@ -37,6 +36,7 @@ Use cWebPanel.pkg
 Use cWebMenuGroup.pkg
 Use cWebMenuItem.pkg
 Use cWebForm.pkg
+Use cWebCombo.pkg // Añadido para la clase del WebCombo de Nacionalidad
 
 // Diccionarios
 Use cligaDataDictionary.dd
@@ -97,6 +97,16 @@ Object oZoomJugador is a cWebView
             Set piColumnSpan to 12
             Set psLabel to "Apellido"
         End_Object 
+
+        // --- TAREA NUEVA: WEBCOMBO CON CODEMAST PARA NACIONALIDAD ---
+        Object oJugadorNacionalidad is a cWebCombo
+            Entry_Item jugador.Nacionalidad
+            Set psLabel to "Nacionalidad"
+            Set piColumnSpan to 12
+            // Configuración para que lea de las tablas CodeMast/CodeType
+            Set psCodeType to "PAISES" 
+            Set peDataType to typeString
+        End_Object
 
         // TAREA: SELECCIÓN DE POSICIÓN (Undefined) 
         Object oPosicionNombre is a cWebForm

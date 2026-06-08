@@ -14,6 +14,11 @@ Class centrenadorDataDictionary is a DataDictionary
 
         Set Add_Client_File to hijoentrenador.File_Number
 
+        // --- TAREA: RELACIÓN HARD NULL (Entrenadores sin equipo) ---
+        // Permite explícitamente que el DDO se guarde sin exigir un padre válido en Equipo
+        Set ParentNullAllowed equipo.File_Number to True
+        // -----------------------------------------------------------
+
         Set Foreign_Field_Option DD_KEYFIELD DD_NOPUT to True
         Set Foreign_Field_Option DD_KEYFIELD DD_FINDREQ to True
         Set Foreign_Field_Option DD_INDEXFIELD DD_NOPUT to True
